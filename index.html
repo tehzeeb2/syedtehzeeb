@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syed Tehzeeb ul Hassan - SEO Specialist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --secondary-color: #06b6d4;
+            --dark-bg: #0f172a;
+            --darker-bg: #020617;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --success-color: #10b981;
+            --transition: all 0.3s ease;
+            --border-radius: 12px;
+            --section-spacing: 100px;
+            --container-width: 1200px;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background-color: var(--darker-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        section {
+            padding: var(--section-spacing) 0;
+        }
+        
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 3rem;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+        }
+        
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+        
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        a:hover {
+            color: var(--secondary-color);
+        }
+        
+        ul {
+            list-style-type: none;
+        }
+        
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+        
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 2rem; }
+        .mb-5 { margin-bottom: 3rem; }
+        
+        .flex {
+            display: flex;
+        }
+        
+        .flex-col {
+            flex-direction: column;
+        }
+        
+        .items-center {
+            align-items: center;
+        }
+        
+        .justify-between {
+            justify-content: space-between;
+        }
+        
+        .grid {
+            display: grid;
+            gap: 30px;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            transition: var(--transition);
+        }
+        
+        .badge:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 0;
+            background-color: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(51, 65, 85, 0.3);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--primary-color);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-link {
+            color: var(--text-secondary);
+            font-weight: 500;
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding-top: 180px;
+            padding-bottom: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 30%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+            z-index: -1;
+        }
+        
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        
+        .hero-text {
+            max-width: 600px;
+        }
+        
+        .hero h1 {
+            margin-bottom: 1rem;
+        }
+        
+        .tagline {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 3rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+        }
+        
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+        }
+        
+        .badge-container {
+            margin-top: 2rem;
+        }
+        
+        .profile-image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .profile-image {
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .profile-image::before {
+            content: '';
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            background: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80') center/cover no-repeat;
+            opacity: 0.9;
+        }
+        
+        .profile-image::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(6, 182, 212, 0.2));
+            border-radius: 50%;
+        }
+        
+        /* Professional Summary */
+        .summary {
+            background-color: var(--dark-bg);
+            position: relative;
+        }
+        
+        .summary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(6, 182, 212, 0.05) 100%);
+            z-index: -1;
+        }
+        
+        .summary-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .summary p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        /* Experience Section */
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 80px;
+            margin-bottom: 50px;
+        }
+        
+        .timeline-date {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 60px;
+            padding: 8px 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        .timeline-content {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            border-left: 4px solid var(--primary-color);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+        }
+        
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .timeline-content h3 {
+            margin-bottom: 10px;
+        }
+        
+        .company {
+            color: var(--secondary-color);
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .timeline-content ul {
+            margin-top: 15px;
+        }
+        
+        .timeline-content li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+        
+        .timeline-content li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+        
+        /* Projects Section */
+        .projects-grid {
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        }
+        
+        .project-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: var(--transition);
+            height: 100%;
+            border: 1px solid var(--border-color);
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary-color);
+        }
+        
+        .project-content {
+            padding: 25px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .project-role {
+            color: var(--secondary-color);
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .project-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .project-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        .project-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+            color: white;
+        }
+        
+        .project-button i {
+            font-size: 0.9rem;
+        }
+        
+        /* Skills Section */
+        .skills-section {
+            background-color: var(--dark-bg);
+        }
+        
+        .skills-container {
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+        
+        .skill-category {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .skill-item {
+            margin-bottom: 25px;
+        }
+        
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .skill-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .skill-percentage {
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+        
+        .skill-bar {
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .skill-progress {
+            height: 100%;
+            border-radius: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            position: relative;
+            width: 0;
+            transition: width 1.5s ease;
+        }
+        
+        /* Tools Section */
+        .tools-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .tool-badge {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+        
+        .tool-badge:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+        }
+        
+        /* Education Section */
+        .education-grid {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+        
+        .education-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .education-degree {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .education-institution {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+        
+        .education-duration {
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+        
+        /* Languages Section */
+        .languages-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .language-item {
+            text-align: center;
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            min-width: 150px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .language-name {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .language-level {
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--darker-bg), #111827);
+            padding: 70px 0 30px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .footer-link {
+            color: var(--text-secondary);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer-link:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+        
+        .footer-contact {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .contact-footer-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .contact-footer-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            transition: var(--transition);
+        }
+        
+        .social-link:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+        
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            h1 {
+                font-size: 2.8rem;
+            }
+            
+            h2 {
+                font-size: 2.2rem;
+            }
+            
+            .container {
+                padding: 0 30px;
+            }
+            
+            .hero {
+                padding-top: 150px;
+            }
+            
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            
+            .hero-text {
+                order: 2;
+            }
+            
+            .profile-image-container {
+                order: 1;
+            }
+            
+            .profile-image {
+                width: 280px;
+                height: 280px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.3rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                padding-left: 60px;
+            }
+            
+            .timeline-date {
+                width: 50px;
+                padding: 6px 8px;
+                font-size: 0.8rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .skills-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .profile-image {
+                width: 250px;
+                height: 250px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.6rem;
+            }
+            
+            .container {
+                padding: 0 20px;
+            }
+            
+            .timeline-content {
+                padding: 20px;
+            }
+            
+            .badge {
+                font-size: 0.8rem;
+                padding: 5px 12px;
+            }
+            
+            .profile-image {
+                width: 220px;
+                height: 220px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container nav-container">
+            <div class="logo">Syed <span>Tehzeeb</span></div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#hero" class="nav-link">Home</a></li>
+                    <li><a href="#summary" class="nav-link">Summary</a></li>
+                    <li><a href="#experience" class="nav-link">Experience</a></li>
+                    <li><a href="#projects" class="nav-link">Projects</a></li>
+                    <li><a href="#skills" class="nav-link">Skills</a></li>
+                    <li><a href="#education" class="nav-link">Education</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero fade-in">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Syed Tehzeeb ul Hassan</h1>
+                    <h2>SEO Specialist</h2>
+                    <p class="tagline">SEO Specialist with 2 years of experience in on-page, off-page, technical, and local SEO, combining a Physics background with practical IT skills.</p>
+                    
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <div>Islamabad, Pakistan</div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📱</div>
+                            <div>+92 304 5454869</div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">✉️</div>
+                            <div>syedtehzeeb5566@gmail.com</div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">🔗</div>
+                            <div><a href="https://www.linkedin.com/in/syed-tehzeeb-ul-hassan" target="_blank">LinkedIn Profile</a></div>
+                        </div>
+                    </div>
+                    
+                    <div class="badge-container">
+                        <span class="badge">On-Page & Off-Page SEO</span>
+                        <span class="badge">Technical & Local SEO</span>
+                        <span class="badge">IT Support & Networking</span>
+                        <span class="badge">E-commerce & Real Estate SEO</span>
+                    </div>
+                </div>
+                
+                <div class="profile-image-container">
+                    <div class="profile-image"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Professional Summary -->
+    <section id="summary" class="summary fade-in">
+        <div class="container">
+            <h2 class="text-center">Professional Summary</h2>
+            <div class="summary-content">
+                <p>IT & SEO Specialist with 15+ months of hands-on experience in on-page, off-page, technical, and local SEO. Manages IT systems, conducts technical audits, and uses digital tools to improve performance and online visibility.</p>
+                <p>Experience with e-commerce and local business websites, combining analytical skills from a BSc in Physics with practical IT expertise. Proven ability to increase organic traffic, improve keyword rankings, and enhance domain authority through targeted SEO strategies.</p>
+                <p>Skilled in using industry-standard tools like Google Analytics, Search Console, Ahrefs, Semrush, and Screaming Frog to analyze data and implement effective SEO campaigns.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience" class="fade-in">
+        <div class="container">
+            <h2 class="text-center">Experience</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Present</div>
+                    <div class="timeline-content">
+                        <h3>SEO Specialist</h3>
+                        <span class="company">Click Master Digital Marketing Agency</span>
+                        <span class="education-duration">Dec 2024 – Present</span>
+                        <ul>
+                            <li>Led SEO campaigns for local and e-commerce clients.</li>
+                            <li>Improved keyword rankings and organic traffic through targeted strategies.</li>
+                            <li>Used analytical insights and SEO tools to optimize site performance.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">2024</div>
+                    <div class="timeline-content">
+                        <h3>SEO Intern & Junior SEO Executive</h3>
+                        <span class="company">Lead Marketing (Pvt.) Ltd</span>
+                        <span class="education-duration">Jun 2024 – Dec 2024</span>
+                        <ul>
+                            <li>Managed on-page and off-page SEO tasks for multiple client websites.</li>
+                            <li>Built backlinks through Web 2.0, guest posting, and directory listings.</li>
+                            <li>Contributed to projects such as theleadmarketing.com and leadroyal.ae.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">2023-24</div>
+                    <div class="timeline-content">
+                        <h3>Freelance – Computer Operator</h3>
+                        <span class="company">Kohat, Pakistan</span>
+                        <span class="education-duration">2023 – 2024</span>
+                        <ul>
+                            <li>Delivered IT support in hardware, software, and network management.</li>
+                            <li>Provided efficient solutions using MS Office and troubleshooting.</li>
+                            <li>Managed system configurations and technical documentation.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="fade-in">
+        <div class="container">
+            <h2 class="text-center">Projects & Portfolio</h2>
+            <div class="projects-grid grid">
+                <div class="project-card">
+                    <div class="project-content">
+                        <h3>LeadMarketing.com</h3>
+                        <span class="project-role">Real Estate Website (Off-Page SEO)</span>
+                        <p>Increased visibility and domain authority through off-page SEO. Executed backlink campaigns via guest posting, Web 2.0, and directory listings.</p>
+                        <div class="project-links">
+                            <span class="badge">Off-Page SEO</span>
+                            <span class="badge">Link Building</span>
+                            <span class="badge">Guest Posting</span>
+                        </div>
+                        <a href="https://theleadmarketing.com" target="_blank" class="project-button">
+                            <i class="fas fa-external-link-alt"></i> Live Preview
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-content">
+                        <h3>Shop.acssllc.ae</h3>
+                        <span class="project-role">E-commerce Website (On-Page & Off-Page SEO)</span>
+                        <p>Improved on-page SEO by optimizing title tags, meta descriptions, headings, and keyword usage. Enhanced search rankings and organic traffic through targeted link-building.</p>
+                        <div class="project-links">
+                            <span class="badge">On-Page SEO</span>
+                            <span class="badge">E-commerce</span>
+                            <span class="badge">Keyword Optimization</span>
+                        </div>
+                        <a href="https://shop.acssllc.ae" target="_blank" class="project-button">
+                            <i class="fas fa-external-link-alt"></i> Live Preview
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-content">
+                        <h3>SEO Portfolio & Client Work</h3>
+                        <span class="project-role">Personal Portfolio & Client Websites</span>
+                        <p>Built and deployed a personal SEO portfolio to showcase skills, case studies, and client work. Managed SEO for websites including Dubai Desert Safari and British Car Transfer.</p>
+                        <div class="project-links">
+                            <span class="badge">Portfolio</span>
+                            <span class="badge">Case Studies</span>
+                            <span class="badge">Client Management</span>
+                        </div>
+                        <div style="display: flex; gap: 10px; margin-top: auto;">
+                            <a href="https://dubaidesertsafaripro.ae/" target="_blank" class="project-button" style="flex: 1; text-align: center;">
+                                <i class="fas fa-external-link-alt"></i> Dubai Safari
+                            </a>
+                            <a href="https://www.britishcartransfer.co.uk/" target="_blank" class="project-button" style="flex: 1; text-align: center;">
+                                <i class="fas fa-external-link-alt"></i> Car Transfer
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills" class="skills-section fade-in">
+        <div class="container">
+            <h2 class="text-center">Skills</h2>
+            <div class="skills-container grid">
+                <div class="skill-category">
+                    <h3>SEO & Digital Marketing Skills</h3>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">On-Page SEO</span>
+                            <span class="skill-percentage">95%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="95"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">Off-Page SEO</span>
+                            <span class="skill-percentage">90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="90"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">Technical SEO</span>
+                            <span class="skill-percentage">88%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="88"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">Local SEO</span>
+                            <span class="skill-percentage">92%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="92"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">Keyword Research</span>
+                            <span class="skill-percentage">94%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="94"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3>IT & Technical Skills</h3>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">Network & System Management</span>
+                            <span class="skill-percentage">85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="85"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">Hardware & Software Support</span>
+                            <span class="skill-percentage">90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="90"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">Data Analysis & Reporting</span>
+                            <span class="skill-percentage">87%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="87"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">Technical Audits</span>
+                            <span class="skill-percentage">89%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="89"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">MS Office Suite</span>
+                            <span class="skill-percentage">93%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-width="93"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools & Platforms -->
+    <section id="tools" class="fade-in">
+        <div class="container">
+            <h2 class="text-center">Tools & Platforms</h2>
+            <div class="tools-container">
+                <span class="tool-badge">Google Analytics</span>
+                <span class="tool-badge">Google Search Console</span>
+                <span class="tool-badge">Ahrefs</span>
+                <span class="tool-badge">Semrush</span>
+                <span class="tool-badge">Moz</span>
+                <span class="tool-badge">Screaming Frog</span>
+                <span class="tool-badge">GitHub</span>
+                <span class="tool-badge">Cloudflare</span>
+                <span class="tool-badge">Vercel</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education -->
+    <section id="education" class="fade-in">
+        <div class="container">
+            <h2 class="text-center">Education</h2>
+            <div class="education-grid grid">
+                <div class="education-card">
+                    <h3 class="education-degree">Bachelor of Science in Physics</h3>
+                    <p class="education-institution">University of Science and Technology, Kohat</p>
+                    <span class="education-duration">2020 – 2024</span>
+                </div>
+                
+                <div class="education-card">
+                    <h3 class="education-degree">Diploma in Information Technology (DIT)</h3>
+                    <p class="education-institution">Government College of Technology, Kohat</p>
+                    <span class="education-duration">2023 – 2024</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Languages -->
+    <section id="languages" class="fade-in">
+        <div class="container">
+            <h2 class="text-center">Languages</h2>
+            <div class="languages-container">
+                <div class="language-item">
+                    <div class="language-name">Urdu</div>
+                    <div class="language-level">Native</div>
+                </div>
+                <div class="language-item">
+                    <div class="language-name">English</div>
+                    <div class="language-level">Intermediate (Improving)</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="fade-in">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Syed Tehzeeb</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 20px;">IT & SEO Specialist with expertise in on-page, off-page, technical, and local SEO. Combining analytical skills with practical IT expertise to improve online visibility and performance.</p>
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/syed-tehzeeb-ul-hassan" target="_blank" class="social-link">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="mailto:syedtehzeeb5566@gmail.com" class="social-link">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="tel:+923045454869" class="social-link">
+                            <i class="fas fa-phone"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <div class="footer-links">
+                        <a href="#hero" class="footer-link"><i class="fas fa-chevron-right"></i> Home</a>
+                        <a href="#summary" class="footer-link"><i class="fas fa-chevron-right"></i> Professional Summary</a>
+                        <a href="#experience" class="footer-link"><i class="fas fa-chevron-right"></i> Experience</a>
+                        <a href="#projects" class="footer-link"><i class="fas fa-chevron-right"></i> Projects</a>
+                        <a href="#skills" class="footer-link"><i class="fas fa-chevron-right"></i> Skills</a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Info</h3>
+                    <div class="footer-contact">
+                        <div class="contact-footer-item">
+                            <div class="contact-footer-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>Islamabad, Pakistan</div>
+                        </div>
+                        <div class="contact-footer-item">
+                            <div class="contact-footer-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>+92 304 5454869</div>
+                        </div>
+                        <div class="contact-footer-item">
+                            <div class="contact-footer-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>syedtehzeeb5566@gmail.com</div>
+                        </div>
+                        <div class="contact-footer-item">
+                            <div class="contact-footer-icon">
+                                <i class="fab fa-linkedin-in"></i>
+                            </div>
+                            <div><a href="https://www.linkedin.com/in/syed-tehzeeb-ul-hassan" target="_blank">LinkedIn Profile</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="footer-text">© <span id="currentYear"></span> Syed Tehzeeb ul Hassan · IT & SEO Specialist · All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            const navLinks = document.querySelector('.nav-links');
+            if (navLinks.style.display === 'flex') {
+                navLinks.style.display = 'none';
+            } else {
+                navLinks.style.display = 'flex';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '70px';
+                navLinks.style.right = '20px';
+                navLinks.style.backgroundColor = 'var(--dark-bg)';
+                navLinks.style.padding = '20px';
+                navLinks.style.borderRadius = 'var(--border-radius)';
+                navLinks.style.boxShadow = '0 10px 30px rgba(0,0,0,0.3)';
+                navLinks.style.border = '1px solid var(--border-color)';
+                navLinks.style.zIndex = '1000';
+                navLinks.style.width = '200px';
+            }
+        });
+        
+        // Scroll animation
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const fadeInOnScroll = function() {
+            fadeElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                    
+                    // Animate skill bars when skills section is visible
+                    if (element.id === 'skills' || element.classList.contains('skills-section')) {
+                        animateSkillBars();
+                    }
+                }
+            });
+        };
+        
+        // Animate skill bars
+        function animateSkillBars() {
+            const skillBars = document.querySelectorAll('.skill-progress');
+            skillBars.forEach(bar => {
+                const width = bar.getAttribute('data-width');
+                bar.style.width = width + '%';
+            });
+        }
+        
+        // Initial check
+        fadeInOnScroll();
+        
+        // Listen for scroll events
+        window.addEventListener('scroll', fadeInOnScroll);
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    const navLinks = document.querySelector('.nav-links');
+                    if (window.innerWidth <= 768 && navLinks.style.display === 'flex') {
+                        navLinks.style.display = 'none';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
