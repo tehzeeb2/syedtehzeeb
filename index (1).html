@@ -219,9 +219,38 @@ footer{border-top:1px solid var(--line);padding:34px 0;}
 .footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;font-family:var(--mono);font-size:.8rem;color:var(--muted);}
 .footer-row a{color:var(--muted);}
 .footer-row a:hover{color:var(--signal);}
+.wa-float{
+  position:fixed;right:24px;bottom:24px;z-index:200;
+  display:flex;align-items:center;gap:10px;
+  background:#25D366;color:#06231F;font-family:var(--mono);font-weight:600;font-size:.88rem;
+  padding:14px 20px 14px 14px;border-radius:50px;
+  box-shadow:0 10px 30px -8px rgba(37,211,102,.55);
+  transition:transform .25s, box-shadow .25s;
+}
+.wa-float:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 16px 40px -8px rgba(37,211,102,.7);}
+.wa-float svg{width:26px;height:26px;flex-shrink:0;}
+.wa-float .wa-pulse{
+  position:absolute;inset:0;border-radius:50px;background:#25D366;opacity:.55;
+  animation:waPulse 2.2s ease-out infinite;
+}
+@keyframes waPulse{
+  0%{transform:scale(1);opacity:.55;}
+  100%{transform:scale(1.35);opacity:0;}
+}
+@media (prefers-reduced-motion: reduce){.wa-float .wa-pulse{animation:none;display:none;}}
+@media (max-width:640px){
+  .wa-float{right:16px;bottom:16px;padding:13px;border-radius:50%;}
+  .wa-float span.wa-label{display:none;}
+}
 </style>
 </head>
 <body>
+
+<a href="https://wa.me/923045454869" target="_blank" rel="noopener" class="wa-float" aria-label="Chat on WhatsApp">
+  <span class="wa-pulse"></span>
+  <svg viewBox="0 0 32 32" fill="currentColor" style="position:relative;z-index:1;"><path d="M16.001 2.667c-7.364 0-13.334 5.97-13.334 13.333 0 2.356.617 4.566 1.694 6.483L2.667 29.333l6.99-1.654a13.27 13.27 0 0 0 6.344 1.654c7.364 0 13.333-5.97 13.333-13.333S23.365 2.667 16.001 2.667zm0 24.296a10.93 10.93 0 0 1-5.575-1.526l-.4-.238-4.146.981.989-4.04-.262-.415a10.94 10.94 0 0 1-1.673-5.725c0-6.06 4.93-10.99 10.99-10.99s10.99 4.93 10.99 10.99-4.929 10.963-10.913 10.963zm6.024-8.224c-.33-.165-1.95-.962-2.253-1.072-.302-.11-.522-.165-.742.165-.22.33-.852 1.072-1.045 1.292-.193.22-.385.247-.715.082-.33-.165-1.392-.513-2.652-1.638-.98-.875-1.642-1.957-1.835-2.287-.193-.33-.02-.508.165-.673.165-.165.385-.426.578-.64.193-.214.247-.367.385-.61.137-.247.07-.45-.027-.64-.097-.165-.879-2.108-1.21-2.886-.317-.74-.643-.64-.879-.652h-.747c-.247 0-.643.082-.99.426-.33.33-1.292 1.265-1.292 3.092s1.32 3.59 1.51 3.838c.193.247 2.62 4.012 6.36 5.467 3.74 1.455 3.74.97 4.42.91.68-.06 2.18-.892 2.49-1.756.31-.864.31-1.6.22-1.756-.082-.165-.302-.247-.633-.412z"/></svg>
+  <span class="wa-label">WhatsApp</span>
+</a>
 
 <header>
   <nav>
@@ -396,6 +425,7 @@ footer{border-top:1px solid var(--line);padding:34px 0;}
         <h3>British Car Transfer</h3>
         <p>SEO support for a UK car transfer service, focused on on-page structure and search visibility for service-based keywords.</p>
         <a class="proj-link" href="https://www.britishcartransfer.co.uk/" target="_blank" rel="noopener">britishcartransfer.co.uk →</a>
+        <img src="brtish.jpeg" alt="British Car Transfer search ranking proof" style="width:100%;border-radius:4px;border:1px solid var(--line);margin-top:6px;">
       </div>
       <div class="proj-card">
         <span class="proj-tag">Healthcare</span>
@@ -458,23 +488,23 @@ footer{border-top:1px solid var(--line);padding:34px 0;}
           <a href="mailto:syedtehzeeb5566@gmail.com"><span class="ci">@</span> syedtehzeeb5566@gmail.com</a>
           <a href="https://github.com/tehzeeb2" target="_blank" rel="noopener"><span class="ci">GH</span> github.com/tehzeeb2</a>
           <a href="https://www.linkedin.com/in/syed-tehzeeb-seo-13b99240a/" target="_blank" rel="noopener"><span class="ci">IN</span> LinkedIn Profile</a>
-          <a href="#"><span class="ci">WA</span> WhatsApp (add your number)</a>
+          <a href="https://wa.me/923045454869" target="_blank" rel="noopener"><span class="ci">WA</span> WhatsApp Chat</a>
         </div>
       </div>
       <form id="contactForm">
         <div class="field">
           <label for="name">Your name</label>
-          <input id="name" type="text" placeholder="Enter your name" required>
+          <input id="name" name="name" type="text" placeholder="Enter your name" required>
         </div>
         <div class="field">
           <label for="email">Your email</label>
-          <input id="email" type="email" placeholder="Enter your email" required>
+          <input id="email" name="email" type="email" placeholder="Enter your email" required>
         </div>
         <div class="field">
           <label for="message">Message</label>
-          <textarea id="message" rows="5" placeholder="Tell me about your SEO project" required></textarea>
+          <textarea id="message" name="message" rows="5" placeholder="Tell me about your SEO project" required></textarea>
         </div>
-        <button type="submit" class="btn btn-primary" style="align-self:flex-start;">Send Message</button>
+        <button type="submit" class="btn btn-primary" style="align-self:flex-start;" id="sendBtn">Send Message</button>
         <div class="form-status" id="formStatus"></div>
       </form>
     </div>
@@ -525,16 +555,38 @@ const obs=new IntersectionObserver((entries)=>{
 },{threshold:0.15});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-/* Contact form (client-side only — wire to a backend/Formspree as needed) */
+/* Contact form — sends a real email directly to syedtehzeeb5566@gmail.com via FormSubmit (no backend needed) */
 document.getElementById('contactForm').addEventListener('submit',function(e){
   e.preventDefault();
   const status=document.getElementById('formStatus');
+  const btn=document.getElementById('sendBtn');
+  const name=document.getElementById('name').value;
+  const email=document.getElementById('email').value;
+  const message=document.getElementById('message').value;
+
   status.textContent='Sending...';
-  setTimeout(()=>{
-    const name=document.getElementById('name').value;
-    status.textContent=`Thanks, ${name}! I'll reply within 24 hours.`;
+  btn.disabled=true;
+
+  fetch('https://formsubmit.co/ajax/syedtehzeeb5566@gmail.com',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify({
+      name:name,
+      email:email,
+      message:message,
+      _subject:`New portfolio enquiry from ${name}`
+    })
+  })
+  .then(res=>res.json())
+  .then(()=>{
+    status.textContent=`Thanks, ${name}! Your message was sent — I'll reply within 24 hours.`;
+    btn.disabled=false;
     this.reset();
-  },600);
+  })
+  .catch(()=>{
+    status.textContent=`Couldn't send automatically — please email syedtehzeeb5566@gmail.com directly.`;
+    btn.disabled=false;
+  });
 });
 
 /* ===== 3D Hero — dependency-free Canvas2D engine: true 3D projection, depth-sorted glow, traveling signal pulses, parallax ===== */
