@@ -11,7 +11,6 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%230B0F14%22/><circle cx=%2250%22 cy=%2250%22 r=%2222%22 fill=%22%235EEAD4%22/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/128/three.min.js"></script>
 <style>
 :root{
   --bg:#0B0F14;
@@ -82,7 +81,7 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:18px 3
   padding-top:90px;
   overflow:hidden;
 }
-#hero-canvas{position:absolute;inset:0;z-index:0;opacity:.9;}
+#hero-canvas{position:absolute;inset:0;z-index:0;opacity:.95;}
 .hero::before{
   content:'';position:absolute;inset:0;z-index:1;
   background:radial-gradient(ellipse 60% 50% at 25% 50%, rgba(11,15,20,.55) 0%, rgba(11,15,20,.92) 70%);
@@ -135,8 +134,8 @@ section{padding:120px 0;position:relative;}
 .about-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:64px;align-items:start;}
 @media (max-width:780px){.about-grid{grid-template-columns:1fr;}}
 .profile-card{
-  background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:30px;
-  position:relative;
+  background:linear-gradient(155deg,rgba(22,29,38,.85),rgba(17,22,29,.85));border:1px solid var(--line);border-radius:6px;padding:30px;
+  position:relative;backdrop-filter:blur(6px);box-shadow:0 20px 60px -20px rgba(0,0,0,.6);
 }
 .avatar{
   width:100%;aspect-ratio:1/1;border-radius:6px;background:linear-gradient(155deg,var(--surface-2),var(--bg));
@@ -181,11 +180,11 @@ section{padding:120px 0;position:relative;}
 @media (max-width:980px){.proj-grid{grid-template-columns:repeat(2,1fr);}}
 @media (max-width:640px){.proj-grid{grid-template-columns:1fr;}}
 .proj-card{
-  background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:26px;
-  display:flex;flex-direction:column;gap:12px;transition:transform .25s, border-color .25s;
+  background:linear-gradient(155deg,rgba(22,29,38,.9),rgba(17,22,29,.9));border:1px solid var(--line);border-radius:6px;padding:26px;
+  display:flex;flex-direction:column;gap:12px;transition:transform .3s cubic-bezier(.2,.8,.3,1), border-color .3s, box-shadow .3s;
   position:relative;overflow:hidden;
 }
-.proj-card:hover{transform:translateY(-5px);border-color:var(--signal);}
+.proj-card:hover{transform:translateY(-6px);border-color:var(--signal);box-shadow:0 24px 50px -18px rgba(94,234,212,.18);}
 .proj-tag{font-family:var(--mono);font-size:.72rem;color:var(--rank);text-transform:uppercase;letter-spacing:.08em;}
 .proj-card h3{font-family:var(--display);font-size:1.15rem;}
 .proj-card p{color:var(--muted);font-size:.9rem;flex-grow:1;}
@@ -538,99 +537,210 @@ document.getElementById('contactForm').addEventListener('submit',function(e){
   },600);
 });
 
-/* ===== 3D Hero: rotating backlink network graph (Three.js) ===== */
+/* ===== 3D Hero — dependency-free Canvas2D engine: true 3D projection, depth-sorted glow, traveling signal pulses, parallax ===== */
 (function(){
   const canvas=document.getElementById('hero-canvas');
-  const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
-  const scene=new THREE.Scene();
-  const camera=new THREE.PerspectiveCamera(55,window.innerWidth/window.innerHeight,0.1,1000);
-  camera.position.set(0,0,42);
-
+  const ctx=canvas.getContext('2d');
+  let W,H,DPR;
   function resize(){
-    const w=window.innerWidth,h=window.innerHeight;
-    renderer.setSize(w,h);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
-    camera.aspect=w/h;
-    camera.updateProjectionMatrix();
+    DPR=Math.min(window.devicePixelRatio||1,2);
+    W=canvas.clientWidth=window.innerWidth;
+    H=canvas.clientHeight=window.innerHeight;
+    canvas.width=W*DPR;canvas.height=H*DPR;
+    ctx.setTransform(DPR,0,0,DPR,0,0);
   }
-  resize();
   window.addEventListener('resize',resize);
 
-  const group=new THREE.Group();
-  scene.add(group);
+  const FOCAL=420;
+  const COLOR_SIGNAL='94,234,212';
+  const COLOR_RANK='245,166,35';
+  const COLOR_EDGE='58,160,150';
+  const COLOR_STAR='180,200,212';
 
-  // Node generation: one "ranked" hub node + orbiting "backlink" nodes
-  const NODE_COUNT=70;
-  const nodePositions=[];
-  const radius=18;
+  /* ---- build network nodes on a jittered sphere ---- */
+  const NODE_COUNT=78;
+  const RADIUS=200;
+  const nodes=[];
   for(let i=0;i<NODE_COUNT;i++){
     const phi=Math.acos(-1+(2*i)/NODE_COUNT);
     const theta=Math.sqrt(NODE_COUNT*Math.PI)*phi;
-    const x=radius*Math.cos(theta)*Math.sin(phi);
-    const y=radius*Math.sin(theta)*Math.sin(phi);
-    const z=radius*Math.cos(phi);
-    nodePositions.push(new THREE.Vector3(x,y,z));
+    const jitter=()=>(Math.random()-0.5)*16;
+    nodes.push({
+      x:RADIUS*Math.cos(theta)*Math.sin(phi)+jitter(),
+      y:RADIUS*Math.sin(theta)*Math.sin(phi)+jitter(),
+      z:RADIUS*Math.cos(phi)+jitter(),
+      hub:i%9===0,
+      phase:Math.random()*Math.PI*2
+    });
   }
 
-  const signalColor=new THREE.Color(0x5EEAD4);
-  const rankColor=new THREE.Color(0xF5A623);
-  const dimColor=new THREE.Color(0x3A4452);
-
-  // Points (nodes)
-  const nodeGeo=new THREE.BufferGeometry();
-  const posArr=new Float32Array(NODE_COUNT*3);
-  const colArr=new Float32Array(NODE_COUNT*3);
-  nodePositions.forEach((p,i)=>{
-    posArr[i*3]=p.x;posArr[i*3+1]=p.y;posArr[i*3+2]=p.z;
-    const isHub=i%9===0;
-    const c=isHub?rankColor:signalColor;
-    const alpha=isHub?1:0.55+Math.random()*0.3;
-    colArr[i*3]=c.r*alpha+0.0;
-    colArr[i*3+1]=c.g*alpha+0.0;
-    colArr[i*3+2]=c.b*alpha+0.0;
-  });
-  nodeGeo.setAttribute('position',new THREE.BufferAttribute(posArr,3));
-  nodeGeo.setAttribute('color',new THREE.BufferAttribute(colArr,3));
-  const nodeMat=new THREE.PointsMaterial({size:0.9,vertexColors:true,transparent:true,opacity:0.95,sizeAttenuation:true});
-  const points=new THREE.Points(nodeGeo,nodeMat);
-  group.add(points);
-
-  // Edges (backlinks) - connect each node to a few nearest neighbours
-  const edgePositions=[];
+  /* nearest-neighbour edges (backlinks) */
+  const edges=[];
   for(let i=0;i<NODE_COUNT;i++){
-    const distances=nodePositions.map((p,j)=>({j,d:p.distanceTo(nodePositions[i])})).filter(o=>o.j!==i).sort((a,b)=>a.d-b.d);
+    const dists=nodes.map((p,j)=>({j,d:(p.x-nodes[i].x)**2+(p.y-nodes[i].y)**2+(p.z-nodes[i].z)**2})).filter(o=>o.j!==i).sort((a,b)=>a.d-b.d);
     const linkCount=2+Math.floor(Math.random()*2);
-    for(let k=0;k<linkCount;k++){
-      const j=distances[k].j;
-      const a=nodePositions[i],b=nodePositions[j];
-      edgePositions.push(a.x,a.y,a.z,b.x,b.y,b.z);
-    }
+    for(let k=0;k<linkCount;k++) edges.push([i,dists[k].j]);
   }
-  const edgeGeo=new THREE.BufferGeometry();
-  edgeGeo.setAttribute('position',new THREE.BufferAttribute(new Float32Array(edgePositions),3));
-  const edgeMat=new THREE.LineBasicMaterial({color:0x2A6F66,transparent:true,opacity:0.35});
-  const lines=new THREE.LineSegments(edgeGeo,edgeMat);
-  group.add(lines);
 
-  group.rotation.x=0.3;
+  /* deep starfield (background depth layer, independent of network rotation) */
+  const STAR_COUNT=260;
+  const stars=[];
+  for(let i=0;i<STAR_COUNT;i++){
+    stars.push({
+      x:(Math.random()-0.5)*1400,
+      y:(Math.random()-0.5)*1400,
+      z:(Math.random()-0.5)*1400-300,
+      r:0.4+Math.random()*1.1,
+      a:0.25+Math.random()*0.5
+    });
+  }
 
-  let mouseX=0,mouseY=0;
+  /* traveling signal pulses along random edges */
+  const PULSE_COUNT=16;
+  const pulses=[];
+  for(let i=0;i<PULSE_COUNT;i++){
+    const e=edges[Math.floor(Math.random()*edges.length)];
+    pulses.push({edge:e,t:Math.random(),speed:0.0035+Math.random()*0.005});
+  }
+
+  let rotY=0,rotX=0.34;
+  let mouseX=0,mouseY=0,targetRotX=0.34,targetRotY=0;
+
   window.addEventListener('mousemove',(e)=>{
     mouseX=(e.clientX/window.innerWidth-0.5);
     mouseY=(e.clientY/window.innerHeight-0.5);
   });
 
-  function animate(){
-    requestAnimationFrame(animate);
-    group.rotation.y+=0.0016;
-    group.rotation.x+=( (mouseY*0.4)+0.3 - group.rotation.x)*0.02;
-    group.rotation.y+=mouseX*0.0006;
-    renderer.render(scene,camera);
+  function rotate(p,ry,rx){
+    // rotate around Y
+    let x=p.x*Math.cos(ry)-p.z*Math.sin(ry);
+    let z=p.x*Math.sin(ry)+p.z*Math.cos(ry);
+    let y=p.y;
+    // rotate around X
+    let y2=y*Math.cos(rx)-z*Math.sin(rx);
+    let z2=y*Math.sin(rx)+z*Math.cos(rx);
+    return {x,y:y2,z:z2};
   }
+
+  function project(p,camX,camY){
+    const cz=p.z+560; // push scene away from camera
+    const scale=FOCAL/cz;
+    return {
+      x:W/2+(p.x-camX)*scale,
+      y:H/2+(p.y-camY)*scale,
+      scale,
+      z:cz
+    };
+  }
+
+  function drawGlowDot(x,y,r,rgb,alpha){
+    if(r<=0||alpha<=0)return;
+    const g=ctx.createRadialGradient(x,y,0,x,y,r);
+    g.addColorStop(0,`rgba(${rgb},${alpha})`);
+    g.addColorStop(0.4,`rgba(${rgb},${alpha*0.5})`);
+    g.addColorStop(1,`rgba(${rgb},0)`);
+    ctx.fillStyle=g;
+    ctx.beginPath();
+    ctx.arc(x,y,r,0,Math.PI*2);
+    ctx.fill();
+  }
+
+  let t0=performance.now();
+
+  function frame(){
+    requestAnimationFrame(frame);
+    const now=performance.now();
+    const t=(now-t0)/1000;
+
+    // smooth rotation + parallax-driven target
+    targetRotY+=0.0016;
+    rotY+=(targetRotY-rotY)*1; // continuous drift
+    rotX+=((0.34+mouseY*0.35)-rotX)*0.04;
+    const camX=mouseX*60;
+    const camY=-mouseY*40;
+
+    ctx.clearRect(0,0,W,H);
+
+    /* ---- starfield (slow independent parallax) ---- */
+    ctx.save();
+    stars.forEach(s=>{
+      const rp=rotate(s, rotY*0.3, 0);
+      const proj=project(rp, camX*0.3, camY*0.3);
+      if(proj.scale>0 && proj.x>-50 && proj.x<W+50 && proj.y>-50 && proj.y<H+50){
+        drawGlowDot(proj.x,proj.y,Math.max(s.r*proj.scale*40,0.4),COLOR_STAR,s.a*Math.min(proj.scale*2,1));
+      }
+    });
+    ctx.restore();
+
+    /* ---- transform network nodes ---- */
+    const transformed=nodes.map(n=>{
+      const r=rotate(n,rotY,rotX);
+      const proj=project(r,camX,camY);
+      return {...n,...r,proj};
+    });
+
+    /* ---- edges, depth-faded ---- */
+    ctx.lineWidth=1;
+    edges.forEach(([i,j])=>{
+      const a=transformed[i],b=transformed[j];
+      const avgZ=(a.z+b.z)/2;
+      const depthAlpha=Math.max(0,Math.min(1,(avgZ+200)/650));
+      ctx.strokeStyle=`rgba(${COLOR_EDGE},${0.16*depthAlpha})`;
+      ctx.beginPath();
+      ctx.moveTo(a.proj.x,a.proj.y);
+      ctx.lineTo(b.proj.x,b.proj.y);
+      ctx.stroke();
+    });
+
+    /* ---- nodes, depth-sorted back-to-front, glow-rendered ---- */
+    const sorted=[...transformed].sort((p,q)=>p.z-q.z);
+    sorted.forEach(n=>{
+      const depthAlpha=Math.max(0.08,Math.min(1,(n.z+220)/680));
+      if(n.hub){
+        const pulse=1+Math.sin(t*1.5+n.phase)*0.22;
+        const r=Math.max(0,9*n.proj.scale*pulse*2.2);
+        drawGlowDot(n.proj.x,n.proj.y,r,COLOR_RANK,0.85*depthAlpha);
+        drawGlowDot(n.proj.x,n.proj.y,r*0.35,COLOR_RANK,1*depthAlpha);
+      }else{
+        const r=Math.max(0,3.4*n.proj.scale*2.4);
+        drawGlowDot(n.proj.x,n.proj.y,r,COLOR_SIGNAL,0.7*depthAlpha);
+      }
+    });
+
+    /* ---- traveling signal pulses along edges ---- */
+    pulses.forEach(p=>{
+      p.t+=p.speed;
+      if(p.t>1){
+        p.t=0;
+        p.edge=edges[Math.floor(Math.random()*edges.length)];
+      }
+      const a=nodes[p.edge[0]],b=nodes[p.edge[1]];
+      const mid={
+        x:a.x+(b.x-a.x)*p.t,
+        y:a.y+(b.y-a.y)*p.t,
+        z:a.z+(b.z-a.z)*p.t
+      };
+      const r=rotate(mid,rotY,rotX);
+      const proj=project(r,camX,camY);
+      const depthAlpha=Math.max(0.1,Math.min(1,(r.z+220)/680));
+      drawGlowDot(proj.x,proj.y,Math.max(0,4.5*proj.scale*2.2),COLOR_SIGNAL,0.95*depthAlpha);
+    });
+  }
+
+  resize();
   if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-    animate();
+    frame();
   }else{
-    renderer.render(scene,camera);
+    // static single frame for reduced-motion users
+    const transformed=nodes.map(n=>{const r=rotate(n,0,0.34);return {...n,...r,proj:project(r,0,0)};});
+    edges.forEach(([i,j])=>{
+      const a=transformed[i],b=transformed[j];
+      ctx.strokeStyle=`rgba(${COLOR_EDGE},0.16)`;
+      ctx.beginPath();ctx.moveTo(a.proj.x,a.proj.y);ctx.lineTo(b.proj.x,b.proj.y);ctx.stroke();
+    });
+    transformed.forEach(n=>{
+      drawGlowDot(n.proj.x,n.proj.y,n.hub?14:7,n.hub?COLOR_RANK:COLOR_SIGNAL,0.8);
+    });
   }
 })();
 </script>
